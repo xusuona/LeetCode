@@ -1,0 +1,31 @@
+class Solution {
+    public String toGoatLatin(String S) {
+        String[] strings = S.split(" ");
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("a");
+        hashSet.add("e");
+        hashSet.add("i");
+        hashSet.add("o");
+        hashSet.add("u");
+        hashSet.add("A");
+        hashSet.add("E");
+        hashSet.add("I");
+        hashSet.add("O");
+        hashSet.add("U");
+        S = "";
+        for (int i = 0;i<strings.length;i++){
+            if (hashSet.contains(strings[i].substring(0,1))) {
+                S += strings[i];
+            }else{
+                S += strings[i].substring(1, strings[i].length());
+                S += strings[i].substring(0,1);
+            }
+            S += "ma";
+            for (int j = 0;j<=i;j++){
+                S += "a";
+            }
+            S += " ";
+        }
+        return S.substring(0,S.length()-1);
+    }
+}
