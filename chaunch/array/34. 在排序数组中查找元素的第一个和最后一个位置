@@ -1,0 +1,48 @@
+/*
+ * @lc app=leetcode.cn id=34 lang=java
+ *
+ * [34] 在排序数组中查找元素的第一个和最后一个位置
+ */
+二分法
+// @lc code=start
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums.length==0)
+            return new int[]{-1,-1};
+        int i =0;
+        int j = nums.length-1;
+        int mid=0;
+        while(i<=j)
+        {
+            mid = (i+j)/2;
+            if(nums[mid]==target)
+                break;
+            if(target>nums[mid])
+            {
+                i=mid+1;
+            }
+            else{
+                j=mid-1;
+            }
+        }
+
+        if(nums[mid]!=target)
+        {
+            return new int[]{-1,-1};
+        }
+        else{
+            int l=mid;
+            int r = mid;
+            while(l-1>=0&&nums[l-1]==target)
+            {
+                l--;
+            }
+            while(r+1<=nums.length-1&&nums[r+1]==target){
+                r++;
+            }
+            return new int[]{l,r};
+        }
+    }
+}
+// @lc code=end
+
