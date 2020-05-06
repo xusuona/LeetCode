@@ -1,0 +1,86 @@
+第一题 1290 二进制链表转整数
+第一次自己想的时候采用了栈来解题，先遍历链表的所有节点，将每个节点的val都压入栈中，再依次弹出计算。
+但此方法运行效率很不理想，于是看题解。
+解题思路：
+利用移位的思想，每乘2一次就相当于左移一位。
+代码如下：
+class Solution {
+    public int getDecimalValue(ListNode head) {
+         //思想：二进制转化为十进
+        int num = 0;
+        while(head != null){
+            num = num * 2 + head.val;
+            head = head.next;
+    }
+    return num;
+}
+}
+第二题 468 验证IP地址
+解题思路：
+1.判断字符串的头和尾是否符合要求；
+2.判断是IPv6还是IPv4;(注意转义字符)
+3.按照各自的规则再次进行判断；
+代码如下：
+class Solution {
+    public String validIPAddress(String IP) {
+       //判断开头
+		if (IP.startsWith(":") || IP.startsWith(".")
+			|| IP.endsWith(":") || IP.endsWith(".")) return "Neither";
+		String[] splitted = IP.split("\\.");
+		//判断是6还是4
+		if(splitted.length == 4){
+			int num = -1;
+			for(int i = 0;i<4;i++){
+				try {
+					
+					num = Integer.parseInt(splitted[i]);
+				} catch (Exception e) {
+					return "Neither";
+				}
+				if(num < 0 || num > 255) return "Neither";
+				if(splitted[i].length() > 1 && (splitted[i].startsWith("0") || splitted[i].startsWith("-"))) return "Neither";
+			}
+			return "IPv4";
+		}else {
+			splitted = IP.split(":");
+			if(splitted.length == 8){
+				int num = -1;
+				for(int i = 0;i<8;i++){
+					int len = splitted[i].length();
+					if(splitted[i] == null || len > 4 || len == 0) return "Neither";
+					for(int j = 0;j<len;j++){
+						char c = splitted[i].charAt(j);
+						if(!((c >= '0' && c <= '9') || (c>='a' && c<='f')||(c>='A' && c <='F'))) return "Neither";
+					}
+				}
+				return "IPv6";
+			}
+			else return "Neither";
+		}
+    }
+}
+第三题 1220 统计元音字母序列的个数
+解题思路：
+1.从右向左统计每个字母出现的个数；
+2.个数总和及结果；
+代码如下：
+class Solution {
+    public int countVowelPermutation(int n) {
+        //从右到左
+         long a = 1,e = 1,i = 1,o = 1,u =1;
+		 int mod = 1000000007;
+		 for(int j = 2;j<=n;j++){
+			 long aa = e;
+			 long ee = (a + i)%mod;
+			 long ii = (a + e + o + u)%mod;
+			 long oo = (i + u)%mod; 
+			 long uu = a;
+			 a = aa;
+			 e = ee;
+			 i = ii;
+			 o = oo;
+			 u = uu;
+		 }
+		 return (int)((a + e + i + o + u)%mod);
+    }
+}
