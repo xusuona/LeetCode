@@ -1,0 +1,15 @@
+/*给定一个正整数，检查他是否为交替位二进制数：换句话说，就是他的二进制数相邻的两个位数永不相等。*/
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        int mark;
+        mark=n&1;
+        n=n>>1;
+        while(n!=0){
+            mark=n&1;
+            n=n>>1;
+            if(mark!=mark){
+                return false;
+            }
+        }
+        return true;
+    }

@@ -1,0 +1,58 @@
+class Solution {
+    public String validIPAddress(String IP) {
+        if(IP.length()<=0){
+            return "Neither";
+        }
+        if (IP.charAt(IP.length()-1)==':'||IP.charAt(IP.length()-1)=='.'||IP.charAt(0)==':'||IP.charAt(IP.length()-1)=='.'){
+            return "Neither";
+        }
+        String[] strings = IP.split("\\.");
+        if (strings.length==4){
+            return pIPv4(strings);
+        }
+        strings = IP.split(":");
+        if (strings.length==8){
+            return pIPv6(strings);
+        }
+        return "Neither";
+    }
+
+
+    public String pIPv4(String[] strings) {
+        for (String s :strings){
+            try {
+                if (s.charAt(0)=='-'){
+                    return "Neither";
+                }
+                int a = Integer.parseInt(s);
+                if (a<0||a>255||(s.length()>1&&s.charAt(0)=='0')){
+                    return "Neither";
+                }
+            }catch (Exception e){
+                return "Neither";
+            }
+        }
+        return "IPv4";
+    }
+
+
+    public String pIPv6(String[] strings) {
+        for (String s :strings){
+            try {
+                if (s.charAt(0)=='-'){
+                    return "Neither";
+                }
+                if (s.length()>4){
+                    return "Neither";
+                }
+                int a = Integer.parseInt(s,16);
+                if(a<0){
+                    return "Neither";
+                }
+            }catch (Exception e){
+                return "Neither";
+            }
+        }
+        return "IPv6";
+    }
+}

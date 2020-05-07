@@ -1,0 +1,115 @@
+第88题  合并两个数组
+解题思路：
+一开始自己思考得到的解法是先在第一个数组后面将第二个数组加上，再进行排序，但效率有点低，看了题解选择了双指针方法解决：
+自己想的代码：
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int index = m;
+        for(int num:nums2){
+            nums1[index] = num;
+            index++;
+        }
+        Arrays.sort(nums1);
+        
+    }
+}
+
+看题解后的方法：
+解题思路：
+1.从后往前排序。
+2.令数组1最大位与数组2要插入的数据比较，比较大的插入到最后面。
+class Solution{
+	public void merge(int[] nums1, int m, int[] nums2, int n){
+		int p1 = m - 1;
+		int p2 = n - 1;
+		int p = n + m - 1;
+		while( p2 >=0 && p1 >= 0){
+			nums1[p--] = (nums1[p1] <= nums2[p2] ? nums2[p2--]:nums1[p1--]);
+		}
+		System.arraycopy(nums2, 0, nums1, 0, p2+1);
+	}
+}
+
+第36题 有效的数独
+解题思路：
+1.先检查每一行是否有重复的数，有则直接返回false；
+2.检查每一列是否有重复的数，有则直接返回false；
+3.检查每一个小方格的数，是否存在重复的数，有则返回false；
+代码如下：
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+           if(board == null && board.length <= 1) return false;
+           for(int i = 0;i < board.length;i++){
+               for(int j = 0;j < board[0].length;j++){
+                   if(board[i][j] != '.'){
+                       if(!isValidHelp(board,board[i][j],i,j)){
+                           return false;
+                       }
+                   }
+               }
+           }
+            return true;
+    }
+    public boolean isValidHelp(char[][] board,char c,int row,int colum){
+        if(board == null) return false;
+        //判断行是否重复
+        for(int i = 0;i < row;i++ ){
+            if(board[i][colum] == c && i != row){
+                return false;
+            }
+        }
+        //判断列是否重复
+        for(int j = 0;j < colum;j++){
+            if(board[row][j] == c && j != colum){
+                return false;
+            }
+        }
+        //判断小格子内是否重复
+        int n = row/3;
+        int m = colum/3;
+        for(int i = n * 3;i < n * 3 + 3;i++){
+            for(int j = m * 3;j < m * 3 + 3;j++){
+                if(board[i][j] == c){
+                    //判断是不是自己
+                    if(i != row && j != colum){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
+第145题  树的后序遍历
+解题思路：
+1.后序遍历的输出顺序为左右根；
+2.使用迭代的方法来做，则需要用到两个栈，根据栈先进后出的特点，可知压栈的顺序为根左右；
+3.每个节点先按根左右的顺序压入栈1，再压入栈2。
+4.待所有不为空的节点都压入栈2后，按顺序将栈2的节点弹出，将里面的值放入数组中。
+代码如下：
+class Solution {
+   
+    public List<Integer> postorderTraversal(TreeNode root) {
+        
+      if(root == null) return new ArrayList<>();
+      List<Integer> list = new ArrayList<>();
+      Stack<TreeNode> stack1 = new Stack<>();
+      Stack<TreeNode> stack2 = new Stack<>();
+      stack1.push(root);
+      while(!stack1.isEmpty()){
+          TreeNode node = stack1.pop();
+          stack2.push(node);
+          if(node.left != null){
+              stack1.push(node.left);
+          }
+          if(node.right != null){
+              stack1.push(node.right);
+          }
+      }
+      while(!stack2.isEmpty()){
+          list.add(stack2.pop().val);
+      }
+      return list;
+    }
+    
+}

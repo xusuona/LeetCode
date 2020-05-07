@@ -1,0 +1,23 @@
+/*输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。*/
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder==null||inorder==null||preorder.length==0||inorder.length==0){
+            return null;
+        }
+        return coreBuideTree(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
+    }
+    public TreeNode coreBuideTree(int[] preorder,int ps,int pe,int[] inorder,int is,int ie){
+        if(ps>pe){
+            return null;
+        }
+        int index=is;
+        int value=preorder[ps];
+        while(index<=ie&inorder[index]!=value){
+            index++;
+        }
+        TreeNode root=new TreeNode(preorder[ps]);
+        root.left=coreBuideTree(preorder,ps+1,ps+index-is,inorder,is,is+index-1);
+        root.right=coreBuideTree(preorder,ps+index-is+1,pe,inorder,index+1,ie);
+        return root;
+    }
+}

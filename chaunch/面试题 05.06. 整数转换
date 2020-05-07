@@ -1,0 +1,13 @@
+class Solution {
+    public int convertInteger(int A, int B) {
+        // return Integer.bitCount(A^B);
+        int temp =A^B;
+        int count=0;
+        while(temp!=0)
+        {
+            temp&=(temp-1);
+            count++;
+        }
+        return count;
+    }
+}
