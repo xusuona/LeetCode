@@ -1,0 +1,61 @@
+/*斐波那契*/
+class Solution {
+    public int climbStairs(int n) {
+        if(n==0){return 1;}
+        if(n==1){return 1;}
+        int a[]=new int[n];
+        a[0]=1;
+        a[1]=2;
+        for(int i=2;i<a.length;i++){
+            a[i]=a[i-1]+a[i-2];
+        }
+        return a[a.length-1];
+    }
+}
+/*字符串转整数*/
+class Solution {
+    public int myAtoi(String str) {
+         if(str==null||str.length()<=0){
+            return 0;
+        }
+        String str1=str.trim();
+        long shu=0;
+        boolean isFushu=false;
+        int j=0;
+        for(int i=0;i<str1.length();i++,j++){
+            char tmp=str1.charAt(i);
+            int a=tmp-'0';
+            if(i==0&&(tmp=='-'||tmp=='+')){
+                if(tmp=='-'){
+                    isFushu=true;
+                }
+                else if(tmp=='+'){
+                    isFushu=false;
+                }
+                continue;
+            }
+            if(tmp<'0'||tmp>'9'){
+                break;
+            }
+            int flag=isFushu?-1:1;
+            shu=shu*10+flag*a;
+            if(shu==0){
+                j--;
+            }
+            if(flag==-1&&j>10){
+                return Integer.MIN_VALUE;
+            }
+            if(flag==1&&(j>10||shu==Integer.MIN_VALUE)){
+                return Integer.MAX_VALUE;
+            }
+            if(shu>=Integer.MAX_VALUE){
+                return Integer.MAX_VALUE;
+            }
+            if(shu<=Integer.MIN_VALUE){
+                return Integer.MIN_VALUE;
+            }
+
+        }
+        return (int)shu;
+    }
+}
